@@ -120,32 +120,6 @@ def print_table(headers, *args, **kwargs):
 			))
 		print content_line
 
-def getout(path):
-	printf("Loading file", 'good')
-	try:
-		getData = open(path, 'r')
-		data = getData.read()
-		getData.close()
-		printf("Loading data completed", 'good')
-		return data
-	except:
-		printf("Can not read file {}".format(path), 'bad')
-
-def writeout(data, path):
-	if path[-1] != '/':
-		path = "{}/output.c".format(path)
-	else:
-		path = "{}output.c".format(path)
-	printf("Writting file", 'warn')
-	try:
-		writeData = open(path, 'w')
-		writeData.write(data)
-		writeData.close()
-		printf("Wrote completed at {}".format(path), 'good')
-	except:
-		printf("Error while creating {}".format(path), 'bad')
-
-
 class NonStringIterable:
 	__metaclass__ = ABCMeta
 	@abstractmethod
