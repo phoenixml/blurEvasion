@@ -141,9 +141,12 @@ class Interface(AutoCompleter):
 	def module_metadata(self):
 		return getattr(self.current_module, "_{}__info__".format(self.current_module.__class__.__name__))
 
-	def _show_modules(self, root_dir = ''):
+	def _show_all(self, root_dir = ''):
 		for module in [module for module in self.modules if module.startswith(root_dir)]:
-			print module.replace('.', os.sep)
+			print(module.replace('.', os.sep))
+
+	def _show_modules(self, root_dir = ''):
+		self._show_all()
 
 	def _show_info(self, *args, **kwargs):
 		self.command_info()
