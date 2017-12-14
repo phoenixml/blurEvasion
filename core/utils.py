@@ -31,7 +31,7 @@ def import_module(path):
 		module = importlib.import_module(path)
 		return getattr(module, 'Payload')
 	except:
-		print "Can not import %s" %(normal_path(path))
+		printf("Can not import {}".format(normal_path(path)), 'bad')
 		return False
 
 def printf(msgText, msgType):
@@ -40,22 +40,22 @@ def printf(msgText, msgType):
 		'warn': '\033[93m{}\033[00m\n'.format(msgText),
 		'good': '\033[92m{}\033[00m\n'.format(msgText)
 	}
-	print msgText[msgType]
+	print(msgText[msgType])
 	
 
 def print_dict(dictionary, order = None):
 	order = order or ()
 
 	def prettyprint(title, body):
-		print "\n{}:".format(title.capitalize())
+		print("\n{}:".format(title.capitalize()))
 		if not isinstance(body, str):
 			for value_element in value:
-				print '- ', value_element
+				print('- ', value_element)
 		else:
 			try:
-				print value #edit here, remove try
+				print(value)
 			except:
-				print ''
+				print('')
 
 	keys = dictionary.keys()
 	for element in order:
@@ -75,7 +75,7 @@ def module_required(fn):
 	@wraps(fn)
 	def wrapper(self, *args, **kwargs):
 		if not self.current_module:
-			print "You have to active module with use command"
+			printf("You have to active module with use command", 'bad')
 			return
 		return fn(self, *args, **kwargs)
 	try:
@@ -89,7 +89,7 @@ def print_table(headers, *args, **kwargs):
 	extra_fill = kwargs.get("extra_fill", 5)
 	header_separator = kwargs.get("header_separator", "-")
 	if not all(map(lambda x: len(x) == len(headers), args)):
-		print "Error headers"
+		printf("Error headers", 'bad')
 		return
 	def custom_len(x):
 		try:
@@ -109,8 +109,8 @@ def print_table(headers, *args, **kwargs):
 			headers_separator_line,
 			'{:<{}}'.format(header_separator * len(header), current_line_fill)
 		))
-	print headers_line
-	print headers_separator_line
+	print(headers_line)
+	print(headers_separator_line)
 	for arg in args:
 		content_line = '   '
 		for idx, element in enumerate(arg):
@@ -118,7 +118,7 @@ def print_table(headers, *args, **kwargs):
 				content_line,
 				'{:{}}'.format(element, fill[idx])
 			))
-		print content_line
+		print(content_line)
 
 class NonStringIterable:
 	__metaclass__ = ABCMeta
