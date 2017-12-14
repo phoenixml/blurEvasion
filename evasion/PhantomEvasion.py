@@ -22,7 +22,7 @@ from random import shuffle
 from libs import randchar
 
 
-class  MHA_mathinject_linux(object):
+class  MHA_linux(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
@@ -80,7 +80,7 @@ class  MHA_mathinject_linux(object):
 		Hollow_code = Hollow_code.encode('utf-8')
 		return Hollow_code
 
-class MHA_mathinject_windows(object):
+class MHA_windows(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
@@ -143,7 +143,7 @@ class MHA_mathinject_windows(object):
 		
 		return Hollow_code
 
-class HVA_mathinject_windows(object):
+class HVA_windows(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
@@ -205,7 +205,7 @@ class HVA_mathinject_windows(object):
 		Hollow_code = Hollow_code.encode('utf-8')
 		return Hollow_code
 
-class Polymorphic_MHA_mathinject_linux(object):
+class Polymorphic_MHA_linux(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
@@ -274,7 +274,7 @@ class Polymorphic_MHA_mathinject_linux(object):
 		Hollow_code = Hollow_code.encode('utf-8')
 		return Hollow_code
 
-class Polymorphic_MHA_mathinject_windows(object):
+class Polymorphic_MHA_windows(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
@@ -348,7 +348,7 @@ class Polymorphic_MHA_mathinject_windows(object):
 		Hollow_code = Hollow_code.encode('utf-8')
 		return Hollow_code
 
-class Polymorphic_MVA_mathinject_windows(object):
+class Polymorphic_MVA_windows(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
