@@ -264,7 +264,7 @@ class Interface(AutoCompleter):
 	def command_options(self, *args, **kwargs):
 		module_opts = [opt for opt in self.current_module.options]
 		headers = ("Name", "Current Settings", "Description")
-		print "Target options: \n"
+		print("Target options: \n")
 		utils.print_table(headers, *self.get_opts(*module_opts))
 		print('')
 
