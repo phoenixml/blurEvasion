@@ -1,5 +1,5 @@
 from core import utils
-import os
+import os, importlib
 
 def getout(path):
 	utils.printf("Loading file", 'warn')
@@ -22,11 +22,11 @@ def writeout(data, path):
 	except:
 		utils.printf("Error while writing data at {}".format(path), 'bad')
 
-def build_exec(platform, architecture, srcPath, destPath):
+def build_exec(platform, architecture, srcPath, destPath, outname):
 	if platform == 'windows':
-		destPath += 'evil.exe'
+		destPath += '{}.exe'.format(outname)
 	else:
-		destPath += 'evil'
+		destPath += outname
 	build_cmd = {
 		'windows': {
 			'x86': 'i686-w64-mingw32-gcc {} -o {} -mwindows'.format(srcPath, destPath),
@@ -45,3 +45,9 @@ def build_exec(platform, architecture, srcPath, destPath):
 		utils.printf("Build completed at {}".format(destPath), 'good')
 	except:
 		utils.printf("Wrong building command. Check your options", 'bad')
+
+def evade(platform, tech, method, data, filename):
+	evade_method = "{}_{}".format(method, platform)
+	evade_tech = importlib.import_module("evasion.{}".format(tech))
+	evade_run = getattr(evade_tech, evade_method)(data, filename)
+	return evade_run.run()
