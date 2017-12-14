@@ -1,8 +1,6 @@
 
 from core import controller, utils
 from libs import actions
-import importlib
-
 
 class Payload(controller.Module):
 	__info__ = {
@@ -25,17 +23,13 @@ class Payload(controller.Module):
 	source = controller.Options('', 'Payload source path')
 	destination = controller.Options('output/', 'Output payload after generate')
 	evasion_tech = controller.Options('PhantomEvasion', 'FUD technology')
-	evasion_method = controller.Options('MHA', 'Evasion method. Usage "show evasions"')
+	evasion_method = controller.Options('MHA', 'Evasion method. Usage :show evasions')
+	output_name = controller.Options('evil', 'Name of output executable file')
 
 	def run(self):
 		try:
 			data = actions.getout(self.source)
-			tmp_name = 'evil'
-			# Start making new payload
-			evade_method = "{}_mathinject_{}".format(self.evasion_method, self.platform)
-			evade_tech = importlib.import_module("evasion.{}".format(self.evasion_tech))
-			evade_run = getattr(evade_tech, evade_method)(data, tmp_name)
-			data = evade_run.run()
+			data = actions.evade(self.platform, self.evasion_tech, self.evasion_method, data, self.output_name)
 		# Get new data, start writing to output file
 			if self.destination[-1] != '/':
 				self.destination += '/'
@@ -43,6 +37,6 @@ class Payload(controller.Module):
 
 			actions.writeout(data, output_payload)
 			# Write done!, start building exe file
-			actions.build_exec(self.platform, self.architecture, output_payload, self.destination)
+			actions.build_exec(self.platform, self.architecture, output_payload, self.destination, self.output_name)
 		except:
 			utils.printf("Error while running module", 'bad')
