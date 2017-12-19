@@ -143,7 +143,7 @@ class MHA_windows(object):
 		
 		return Hollow_code
 
-class HVA_windows(object):
+class MVA_windows(object):
 	def __init__(self, Payload, Filename):
 		self.Payload, self.Filename = Payload, Filename
 	def run(self):
