@@ -197,9 +197,9 @@ class Interface(AutoCompleter):
 ### === Execute command
 
 	def command_help(self, *args, **kwargs):
-		print('\n', self.main_help)
+		print('\n' + self.main_help)
 		if self.current_module:
-			print('\n', self.module_help)
+			print('\n' + self.module_help)
 
 	def command_search(self, *args, **kwargs):
 		for arg in args:
