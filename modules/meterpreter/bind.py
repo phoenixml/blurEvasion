@@ -25,7 +25,7 @@ class Payload(controller.Module):
 	lport = controller.Options('13337', "Target's open port")
 	evasion_tech = controller.Options("PhantomEvasion", "FUD technology")
 	evasion_method = controller.Options("MHA", 'Evasion method. Usage :show evasions')
-	outpt_name = controller.Options('evil', "Nmae of outut executable file")
+	output_name = controller.Options('evil', "Name of outut executable file")
 
 	def run(self):
 		try:
@@ -61,5 +61,5 @@ class Payload(controller.Module):
 			utils.printf("Error while generating FUD payload", 'bad')
 			return ''
 		utils.printf("Building executable file", 'warn')
-		actions.build_exec(self.platform, self.architecture, src_output, 'output/', self.outpt_name)
+		actions.build_exec(self.platform, self.architecture, src_output, 'output/', self.output_name)
 		utils.printf("Build completed", 'good')
